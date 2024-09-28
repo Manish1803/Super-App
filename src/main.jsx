@@ -5,13 +5,15 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
 import "./index.css";
+import Selection from "./pages/Selection";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="*" element={<NotFound />}></Route>
+        <Route path="/" element={<Home />} />
+        <Route path="/selection" element={<Selection />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

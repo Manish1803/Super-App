@@ -1,7 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    mobile: "",
+    checkbox: false,
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    username: "",
+    email: "",
+    mobile: "",
+    checkbox: "",
+  });
+
+  function handleInput(e) {
+    setData({
+      ...data,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    let errors = {};
+
+    if (!data.name || data.name.trim() === "") {
+      errors.name = "Name is required";
+    }
+    if (!data.username || data.username.trim() === "") {
+      errors.username = "Username is required";
+    }
+    if (!data.email || data.email.trim() === "") {
+      errors.email = "Email is required";
+    }
+    if (!data.mobile || data.mobile.trim() === "") {
+      errors.mobile = "Mobile is required";
+    }
+    if (!data.checkbox) {
+      errors.checkbox = "Checkbox is required";
+    }
+
+    setErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    } else {
+      alert("Form Submitted Sucessfully!");
+      localStorage.setItem("user", JSON.stringify(data));
+      setData({
+        name: "",
+        username: "",
+        email: "",
+        mobile: "",
+        checkbox: false,
+      });
+      navigate("/selection");
+    }
+  }
+
   return (
     <header className={styles.header}>
       <section className={styles.heroImgContainer}>
@@ -13,12 +79,19 @@ const Home = () => {
       <section className={styles.heroSignUp}>
         <h1 className={styles.appTitle}>Super App</h1>
         <p className={styles.subTitle}>Create your new account</p>
-        <form action="" className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={handleSubmit}>
           <div className={styles.inputField}>
-            <input type="text" placeholder="Name" name="name" id="name" />
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              id="name"
+              value={data.name}
+              onChange={handleInput}
+            />
             <label htmlFor="name">Name</label>
           </div>
-          <span></span>
+          <span>{errors.name}</span>
 
           <div className={styles.inputField}>
             <input
@@ -26,42 +99,57 @@ const Home = () => {
               placeholder="Username"
               name="username"
               id="username"
+              value={data.username}
+              onChange={handleInput}
             />
             <label htmlFor="username">Username</label>
           </div>
-          <span></span>
-
-          <div className={styles.inputField}>
-            <input type="email" placeholder="Email" name="email" id="email" />
-            <label htmlFor="email">Email</label>
-          </div>
-          <span></span>
+          <span>{errors.username}</span>
 
           <div className={styles.inputField}>
             <input
-              type="text"
+              type="email"
+              placeholder="Email"
+              name="email"
+              id="email"
+              value={data.email}
+              onChange={handleInput}
+            />
+            <label htmlFor="email">Email</label>
+          </div>
+          <span>{errors.email}</span>
+
+          <div className={styles.inputField}>
+            <input
+              type="tel"
               placeholder="Mobile number"
               name="mobile"
               id="mobile"
               maxLength={10}
+              value={data.mobile}
+              onChange={handleInput}
             />
             <label htmlFor="mobile">Mobile number</label>
           </div>
-          <span></span>
+          <span>{errors.mobile}</span>
 
           <div className={styles.checkerContainer}>
             <div className={styles.checker}>
-              <input type="checkbox" name="checkbox" id="checkbox" />
+              <input
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                value={data.checkbox}
+                onChange={handleInput}
+              />
               <label htmlFor="checkbox">
                 Share my registration data with Superapp
               </label>
             </div>
-            <span></span>
+            <span>{errors.checkbox}</span>
           </div>
 
-          <button type="submit" className={styles.signUpBtn}>
-            Sign Up
-          </button>
+          <button className={styles.signUpBtn}>Sign Up</button>
 
           <p className={styles.terms}>
             By clicking on Sign up. you agree to Superapp{" "}
