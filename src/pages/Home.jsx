@@ -71,6 +71,7 @@ const Home = () => {
   return (
     <header className={styles.header}>
       <section className={styles.heroImgContainer}>
+        <h1 className={styles.heroTitle}>Discover new things on Superapp</h1>
         <img
           src="https://images.unsplash.com/photo-1541500792866-07f25e0c8578?q=80&w=2807&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt=""
